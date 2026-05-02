@@ -48,7 +48,7 @@ public class Task {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TaskStatus taskStatus;
+    private TaskStatus taskStatus = TaskStatus.OPEN;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_list_id", nullable = false)

@@ -1,17 +1,17 @@
-package com.mujahid.trackify.domain.dto;
+package com.mujahid.trackify.domain.dto.request;
 
 import com.mujahid.trackify.domain.enums.TaskPriority;
-import com.mujahid.trackify.domain.enums.TaskStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record TaskDto(
-        UUID id,
+/**
+ * DTO for creating or updating a Task.
+ */
+public record TaskRequestDto(
         String title,
         String description,
         LocalDateTime dueDate,
-        TaskPriority priority,
-        TaskStatus status
+        TaskPriority taskPriority
 ) {
 }
