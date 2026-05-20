@@ -2,6 +2,8 @@ package com.mujahid.trackify.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,20 +40,13 @@ public class TaskList {
     @OneToMany(mappedBy = "taskList", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Task> tasks;
 
+    @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
     private LocalDateTime creationDate;
 
+    @UpdateTimestamp
     @Column(name = "last_update_date", nullable = false)
     private LocalDateTime lastUpdateDate;
 
-    @PrePersist
-    protected void onCreate() {
-        this.creationDate = LocalDateTime.now();
-        this.lastUpdateDate = LocalDateTime.now();
-    }
-    @PreUpdate
-    protected void onUpdate() {
-        this.lastUpdateDate = LocalDateTime.now();
-    }
 
 }

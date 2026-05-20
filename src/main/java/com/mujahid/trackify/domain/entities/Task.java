@@ -4,6 +4,8 @@ import com.mujahid.trackify.domain.enums.TaskPriority;
 import com.mujahid.trackify.domain.enums.TaskStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -35,9 +37,11 @@ public class Task {
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
+    @CreationTimestamp
     @Column(name = "creation_date", nullable = false, updatable = false)
     private LocalDateTime creationDate;
 
+    @UpdateTimestamp
     @Column(name = "last_update_date", nullable = false)
     private LocalDateTime lastUpdateDate;
 
@@ -52,16 +56,6 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_list_id", nullable = false)
     private TaskList taskList;
-
-    @PrePersist
-    protected void onCreate() {
-        this.creationDate = LocalDateTime.now();
-        this.lastUpdateDate = LocalDateTime.now();
-    }
-    @PreUpdate
-    protected void onUpdate() {
-        this.lastUpdateDate = LocalDateTime.now();
-    }
 
 
 }
