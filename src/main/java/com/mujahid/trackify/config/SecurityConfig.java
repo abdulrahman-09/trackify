@@ -13,8 +13,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests((request) ->
                 request.requestMatchers("/api/v1/user").authenticated());
 
-
-
                 return http.build();
     }
 }
