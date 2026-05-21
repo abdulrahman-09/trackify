@@ -6,10 +6,10 @@ services:
       - "3307:3306"
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: changemeinproduction
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: trackify_db
-      MYSQL_USER: trackifyuser
-      MYSQL_PASSWORD: changemeinproduction
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
 
