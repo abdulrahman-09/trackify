@@ -48,7 +48,6 @@ public class JwtService {
                 .expiration(new Date(currentInMs + jwtExTime))
                 .signWith(getSigningKey())
                 .compact();
-
     }
 
     // Token validation
@@ -76,6 +75,5 @@ public class JwtService {
         final String username = extractEmail(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
-
 
 }
