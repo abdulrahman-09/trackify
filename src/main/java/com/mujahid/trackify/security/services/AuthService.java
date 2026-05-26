@@ -4,7 +4,6 @@ import com.mujahid.trackify.domain.entities.User;
 import com.mujahid.trackify.exceptions.EmailAlreadyInUseException;
 import com.mujahid.trackify.repositories.UserRepository;
 import com.mujahid.trackify.security.Principal;
-import com.mujahid.trackify.security.UserDetailsServiceImpl;
 import com.mujahid.trackify.security.dto.request.LoginRequest;
 import com.mujahid.trackify.security.dto.request.RegisterRequest;
 import com.mujahid.trackify.security.dto.response.AuthenticationResponse;
@@ -12,7 +11,6 @@ import com.mujahid.trackify.security.enums.AuthProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
