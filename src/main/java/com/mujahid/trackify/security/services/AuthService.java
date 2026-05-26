@@ -1,6 +1,7 @@
 package com.mujahid.trackify.security.services;
 
 import com.mujahid.trackify.domain.entities.User;
+import com.mujahid.trackify.exceptions.EmailAlreadyInUseException;
 import com.mujahid.trackify.repositories.UserRepository;
 import com.mujahid.trackify.security.Principal;
 import com.mujahid.trackify.security.UserDetailsServiceImpl;
