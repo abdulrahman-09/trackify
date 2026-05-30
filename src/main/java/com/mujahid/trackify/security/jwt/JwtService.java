@@ -1,4 +1,4 @@
-package com.mujahid.trackify.security.services;
+package com.mujahid.trackify.security.jwt;
 
 import com.mujahid.trackify.security.Principal;
 import io.jsonwebtoken.Claims;

@@ -1,14 +1,17 @@
-package com.mujahid.trackify.security.filter;
+package com.mujahid.trackify.security.oauth2;
 
 import com.mujahid.trackify.security.Principal;
-import com.mujahid.trackify.security.services.JwtService;
+import com.mujahid.trackify.security.jwt.JwtService;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 
@@ -17,6 +20,10 @@ import java.io.IOException;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
+
+    @Value("${OAUTH2_REDIRECT_URI}")
+    private String redirectUri;
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -28,6 +35,18 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         String token = jwtService.generateToken(principal);
         // To be continued
 
+        Cookie cookie = new Cookie("jwt", token);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(86400);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
+
+        String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
+                .queryParam("token", token)
+                .build()
+                .toUriString();
+
+        response.sendRedirect(redirectUri);
     }
 }

@@ -1,4 +1,4 @@
-package com.mujahid.trackify.controllers;
+package com.mujahid.trackify.security.controller;
 
 import com.mujahid.trackify.security.dto.request.LoginRequest;
 import com.mujahid.trackify.security.dto.request.RegisterRequest;
@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -31,6 +28,13 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid LoginRequest request){
         return ResponseEntity.ok(
                 authService.login(request)
+        );
+    }
+
+    @GetMapping("/oauth2/success")
+    public ResponseEntity<AuthenticationResponse> oauthSuccess(@RequestParam String token) {
+        return ResponseEntity.ok(
+            new AuthenticationResponse(token, "Bearer")
         );
     }
 }

@@ -1,6 +1,5 @@
-package com.mujahid.trackify.security.filter;
+package com.mujahid.trackify.security.jwt;
 
-import com.mujahid.trackify.security.services.JwtService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

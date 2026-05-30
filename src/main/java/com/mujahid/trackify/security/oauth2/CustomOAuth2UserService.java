@@ -1,4 +1,4 @@
-package com.mujahid.trackify.security.services;
+package com.mujahid.trackify.security.oauth2;
 
 import com.mujahid.trackify.domain.entities.User;
 import com.mujahid.trackify.repositories.UserRepository;
@@ -37,6 +37,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = userRepository.findByEmail(email)
                 .map(existingUser -> updateExistingOAuth2User(existingUser, googleId))
                 .orElseGet(() -> createNewOAuth2User(email, googleId, firstName, lastName));
+
+
+//        Optional<User> userOpt = userRepository.findByEmail(email);
+//        if(userOpt.isEmpty()){
+//            createNewOAuth2User(email, googleId, firstName, lastName);
+//        }else {
+//            updateExistingOAuth2User(userOpt.get(), googleId);
+//        }
 
         return new Principal(user, attributes);
     }

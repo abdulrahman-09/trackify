@@ -8,6 +8,7 @@ import com.mujahid.trackify.security.dto.request.LoginRequest;
 import com.mujahid.trackify.security.dto.request.RegisterRequest;
 import com.mujahid.trackify.security.dto.response.AuthenticationResponse;
 import com.mujahid.trackify.security.enums.AuthProvider;
+import com.mujahid.trackify.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
