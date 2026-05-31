@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -32,9 +34,15 @@ public class AuthController {
     }
 
     @GetMapping("/oauth2/success")
-    public ResponseEntity<AuthenticationResponse> oauthSuccess(@RequestParam String token) {
-        return ResponseEntity.ok(
-            new AuthenticationResponse(token, "Bearer")
-        );
+    public ResponseEntity<Map<String, String>> oauthSuccess(
+            @CookieValue(name = "jwt", required = false) String token) {
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "No JWT cookie found"));
+        }
+        return ResponseEntity.ok(Map.of(
+                "message", "OAuth2 login successful",
+                "token", token
+        ));
     }
 }
