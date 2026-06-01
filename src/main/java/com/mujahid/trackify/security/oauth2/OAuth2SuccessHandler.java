@@ -33,20 +33,11 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         Principal principal = (Principal) authentication.getPrincipal();
         String token = jwtService.generateToken(principal);
-        // To be continued
-
-        Cookie cookie = new Cookie("jwt", token);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(86400);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-
 
         String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
                 .queryParam("token", token)
-                .build()
-                .toUriString();
+                .build().toUriString();
 
-        response.sendRedirect(redirectUri);
+        response.sendRedirect(targetUrl);
     }
 }

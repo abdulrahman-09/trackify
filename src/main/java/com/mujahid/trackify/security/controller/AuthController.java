@@ -34,15 +34,14 @@ public class AuthController {
     }
 
     @GetMapping("/oauth2/success")
-    public ResponseEntity<Map<String, String>> oauthSuccess(
-            @CookieValue(name = "jwt", required = false) String token) {
-        if (token == null) {
+    public ResponseEntity<AuthenticationResponse> oauthSuccess(
+            @RequestParam(name = "token", required = false) String token) {
+
+        if (token == null || token.isBlank()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "No JWT cookie found"));
+                    .body(new AuthenticationResponse(null, "Error"));
         }
-        return ResponseEntity.ok(Map.of(
-                "message", "OAuth2 login successful",
-                "token", token
-        ));
+
+        return ResponseEntity.ok(new AuthenticationResponse(token, "Bearer"));
     }
 }

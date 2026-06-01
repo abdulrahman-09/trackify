@@ -38,14 +38,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .map(existingUser -> updateExistingOAuth2User(existingUser, googleId))
                 .orElseGet(() -> createNewOAuth2User(email, googleId, firstName, lastName));
 
-
-//        Optional<User> userOpt = userRepository.findByEmail(email);
-//        if(userOpt.isEmpty()){
-//            createNewOAuth2User(email, googleId, firstName, lastName);
-//        }else {
-//            updateExistingOAuth2User(userOpt.get(), googleId);
-//        }
-
         return new Principal(user, attributes);
     }
 
