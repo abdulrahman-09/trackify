@@ -34,15 +34,4 @@ public class AuthController {
         );
     }
 
-    @GetMapping("/oauth2/success")
-    public ResponseEntity<AuthenticationResponse> oauthSuccess(
-            @RequestParam(name = "token", required = false) String token) {
-
-        if (token == null || token.isBlank()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new AuthenticationResponse(null, "Error"));
-        }
-
-        return ResponseEntity.ok(new AuthenticationResponse(token, "Bearer"));
-    }
 }

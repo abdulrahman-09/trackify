@@ -3,7 +3,7 @@ services:
     image: mysql:8.0
     container_name: mysql_trakify_db
     ports:
-      - "3307:3306"
+      - "127.0.0.1:3307:3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}

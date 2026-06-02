@@ -1,17 +1,17 @@
 package com.mujahid.trackify.security.oauth2;
 
 import com.mujahid.trackify.security.Principal;
+import com.mujahid.trackify.security.dto.response.AuthenticationResponse;
 import com.mujahid.trackify.security.jwt.JwtService;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
@@ -21,9 +21,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
 
-    @Value("${OAUTH2_REDIRECT_URI}")
-    private String redirectUri;
-
+    private final ObjectMapper objectMapper;  // inject this
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -34,10 +32,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         Principal principal = (Principal) authentication.getPrincipal();
         String token = jwtService.generateToken(principal);
 
-        String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
-                .queryParam("token", token)
-                .build().toUriString();
-
-        response.sendRedirect(targetUrl);
+        AuthenticationResponse authResponse =
+                new AuthenticationResponse(token, "Bearer");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        objectMapper.writeValue(response.getWriter(), authResponse);
     }
 }
