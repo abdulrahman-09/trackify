@@ -1,19 +1,19 @@
 package com.mujahid.trackify.services;
 
-import com.mujahid.trackify.domain.dto.request.TaskListRequestDto;
-import com.mujahid.trackify.domain.dto.response.TaskListResponseDto;
+import com.mujahid.trackify.domain.dto.request.TaskListRequest;
+import com.mujahid.trackify.domain.dto.response.TaskListResponse;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface TaskListService {
-    TaskListResponseDto createTaskList(TaskListRequestDto taskListRequestDto);
+    TaskListResponse createTaskList(TaskListRequest taskListRequest);
 
-    List<TaskListResponseDto> getAllTaskListsForCurrentUser();
+    List<TaskListResponse> getAllTaskListsForCurrentUser();
 
-    TaskListResponseDto getTaskListById(UUID taskListId);
+    TaskListResponse getTaskListById(UUID taskListId);
 
-    TaskListResponseDto updateTaskList(UUID taskListId, TaskListRequestDto taskListRequestDto);
+    TaskListResponse updateTaskList(UUID taskListId, TaskListRequest taskListRequest);
 
     void deleteTaskList(UUID taskListId);
 }

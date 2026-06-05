@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record TaskListResponseDto(
+public record TaskListResponse(
         UUID id,
         String title,
         String description,
-        List<TaskResponseDto> tasks,
+        List<TaskResponse> tasks,
         LocalDateTime creationDate,
         LocalDateTime lastUpdateDate
 ) {

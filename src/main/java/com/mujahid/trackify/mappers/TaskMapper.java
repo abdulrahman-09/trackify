@@ -1,7 +1,7 @@
 package com.mujahid.trackify.mappers;
 
-import com.mujahid.trackify.domain.dto.request.TaskRequestDto;
-import com.mujahid.trackify.domain.dto.response.TaskResponseDto;
+import com.mujahid.trackify.domain.dto.request.TaskRequest;
+import com.mujahid.trackify.domain.dto.response.TaskResponse;
 import com.mujahid.trackify.domain.entities.Task;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,10 +9,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
 
-    Task toEntity(TaskRequestDto taskRequestDto);
+    Task toEntity(TaskRequest taskRequest);
 
     @Mapping(source = "taskList.id", target = "taskListId")
-    TaskResponseDto toDto(Task task);
+    TaskResponse toDto(Task task);
 }
 
 

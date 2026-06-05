@@ -6,7 +6,7 @@ import com.mujahid.trackify.domain.enums.TaskStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record TaskResponseDto(
+public record TaskResponse(
         UUID id,
         String title,
         String description,
