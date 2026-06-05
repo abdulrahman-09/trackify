@@ -56,6 +56,4 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "task_list_id", nullable = false)
     private TaskList taskList;
-
-
 }

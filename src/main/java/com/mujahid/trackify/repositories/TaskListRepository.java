@@ -23,4 +23,6 @@ public interface TaskListRepository extends JpaRepository<TaskList, UUID> {
     @Query("DELETE FROM TaskList tl WHERE tl.id = :id AND tl.user.id = :userId")
     int deleteByIdAndUserId(@Param("id") UUID taskListId, @Param("userId") UUID userId);
 
+    boolean existsByIdAndUserId(UUID taskListId, UUID id);
+
 }
