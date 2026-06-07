@@ -9,6 +9,7 @@ import com.mujahid.trackify.repositories.UserRepository;
 import com.mujahid.trackify.security.SecurityUtils;
 import com.mujahid.trackify.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUser() {
         User user = securityUtils.getCurrentUser();
-        return userMapper.toResponse(user);
+        return userMapper.toResponse(
+                userRepository.findById(user.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + user.getId()))
+        );
     }
 
     @Override
@@ -46,5 +50,6 @@ public class UserServiceImpl implements UserService {
         if (deleted == 0) {
             throw new ResourceNotFoundException("User not found with id: " + user.getId());
         }
+        SecurityContextHolder.clearContext();
     }
 }
