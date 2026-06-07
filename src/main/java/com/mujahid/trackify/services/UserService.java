@@ -1,7 +1,12 @@
 package com.mujahid.trackify.services;
 
-public interface UserService {
+import com.mujahid.trackify.domain.dto.request.UserUpdateRequest;
+import com.mujahid.trackify.domain.dto.response.UserResponse;
 
-    void deleteCurrentUser();
-    Boolean ExistsByEmail(String email);
+import java.util.UUID;
+
+public interface UserService {
+    UserResponse getUser();
+    UserResponse updateUser(UserUpdateRequest request);
+    void deleteUser();
 }
