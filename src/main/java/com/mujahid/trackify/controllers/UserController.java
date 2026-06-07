@@ -20,7 +20,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser());
     }
 
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<UserResponse> updateUser(@RequestBody @Valid UserUpdateRequest request){
         return ResponseEntity.ok(userService.updateUser(request));
     }
