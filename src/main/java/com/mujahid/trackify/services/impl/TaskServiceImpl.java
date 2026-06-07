@@ -1,6 +1,8 @@
 package com.mujahid.trackify.services.impl;
 
+import com.mujahid.trackify.domain.dto.request.TaskPriorityRequest;
 import com.mujahid.trackify.domain.dto.request.TaskRequest;
+import com.mujahid.trackify.domain.dto.request.TaskStatusRequest;
 import com.mujahid.trackify.domain.dto.response.TaskResponse;
 import com.mujahid.trackify.domain.entities.Task;
 import com.mujahid.trackify.domain.entities.TaskList;
@@ -69,19 +71,19 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public TaskResponse updateTaskStatus(UUID taskListId, UUID taskId, TaskStatus status) {
+    public TaskResponse updateTaskStatus(UUID taskListId, UUID taskId, TaskStatusRequest request) {
         User user = securityUtils.getCurrentUser();
         Task task = findOwnedTask(taskListId, taskId, user.getId());
-        task.setTaskStatus(status);
+        task.setTaskStatus(request.status());
         return taskMapper.toResponse(task);
     }
 
     @Override
     @Transactional
-    public TaskResponse updateTaskPriority(UUID taskListId, UUID taskId, TaskPriority priority) {
+    public TaskResponse updateTaskPriority(UUID taskListId, UUID taskId, TaskPriorityRequest request) {
         User user = securityUtils.getCurrentUser();
         Task task = findOwnedTask(taskListId, taskId, user.getId());
-        task.setTaskPriority(priority);
+        task.setTaskPriority(request.priority());
         return taskMapper.toResponse(task);
     }
 
