@@ -3,8 +3,10 @@ package com.mujahid.trackify.mappers;
 import com.mujahid.trackify.domain.dto.request.UserUpdateRequest;
 import com.mujahid.trackify.domain.dto.response.UserResponse;
 import com.mujahid.trackify.domain.entities.User;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

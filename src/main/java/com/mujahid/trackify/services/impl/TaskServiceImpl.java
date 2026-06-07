@@ -7,8 +7,6 @@ import com.mujahid.trackify.domain.dto.response.TaskResponse;
 import com.mujahid.trackify.domain.entities.Task;
 import com.mujahid.trackify.domain.entities.TaskList;
 import com.mujahid.trackify.domain.entities.User;
-import com.mujahid.trackify.domain.enums.TaskPriority;
-import com.mujahid.trackify.domain.enums.TaskStatus;
 import com.mujahid.trackify.exceptions.ResourceNotFoundException;
 import com.mujahid.trackify.mappers.TaskMapper;
 import com.mujahid.trackify.repositories.TaskListRepository;
