@@ -49,6 +49,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskPriority taskPriority;
 
+    @Builder.Default
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus = TaskStatus.OPEN;
