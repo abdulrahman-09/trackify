@@ -21,7 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig {
@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
+                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -47,7 +48,11 @@ public class SecurityConfig {
                                 userInfo.userService(oAuth2UserService))
                         .successHandler(oAuth2SuccessHandler)
                         .failureHandler((request, response, exception) -> {
-                            log.warn("OAuth2 authentication failed for user", exception);
+                            log.warn("OAuth2 authentication failed", exception);
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write("{\"error\":\"oauth2_failed\"}");
                         })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
