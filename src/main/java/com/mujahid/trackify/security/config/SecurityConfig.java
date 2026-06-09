@@ -3,6 +3,7 @@ package com.mujahid.trackify.security.config;
 import com.mujahid.trackify.security.jwt.JwtAuthFilter;
 import com.mujahid.trackify.security.oauth2.CustomOAuth2UserService;
 import com.mujahid.trackify.security.oauth2.OAuth2SuccessHandler;
+import com.mujahid.trackify.security.ratelimiting.RateLimitingFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
+    private final RateLimitingFilter rateLimitingFilter;
     private final UserDetailsService userDetailsService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final CustomOAuth2UserService oAuth2UserService;
@@ -55,8 +57,19 @@ public class SecurityConfig {
                             response.setCharacterEncoding("UTF-8");
                             response.getWriter().write("{\"error\":\"oauth2_failed\"}");
                         })
+
                 )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write("{\"error\":\"unauthorized\"}");
+                        })
+                )
+
+                .addFilterBefore(rateLimitingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtAuthFilter, RateLimitingFilter.class);
 
         return http.build();
     }
