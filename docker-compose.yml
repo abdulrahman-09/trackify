@@ -1,10 +1,10 @@
 services:
   db:
     image: mysql:8.0
-    container_name: mysql_trakify_db
+    container_name: mysql_trackify_db
     ports:
-      - "127.0.0.1:3307:3306"
-    restart: always
+      - "127.0.0.1:3307:3306"   # bound to localhost only — not exposed publicly
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: trackify_db
@@ -12,6 +12,32 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trackify_app
+    depends_on:
+      db:
+        condition: service_healthy    # waits for MySQL to actually be ready
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      DB_URL: jdbc:mysql://db:3306/trackify_db
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
 
 volumes:
   mysql_data:
