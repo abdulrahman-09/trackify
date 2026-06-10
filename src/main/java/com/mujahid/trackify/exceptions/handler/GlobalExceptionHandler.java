@@ -2,8 +2,10 @@ package com.mujahid.trackify.exceptions.handler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.mujahid.trackify.domain.dto.response.ErrorResponse;
+import com.mujahid.trackify.exceptions.ApiException;
 import com.mujahid.trackify.exceptions.EmailAlreadyInUseException;
 import com.mujahid.trackify.exceptions.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -19,6 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
@@ -63,6 +66,17 @@ public class GlobalExceptionHandler {
         String message = "Invalid value '%s' for parameter '%s'"
                 .formatted(ex.getValue(), ex.getName());
         return build(HttpStatus.BAD_REQUEST, "Bad Request", message, null);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ErrorResponse> handleApiException(ApiException ex) {
+        return build(HttpStatus.INTERNAL_SERVER_ERROR, "Error", ex.getMessage(), null);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
+        log.error("Unhandled exception", ex);
+        return build(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", "An unexpected error occurred", null);
     }
 
     private ResponseEntity<ErrorResponse> build(HttpStatus status, String error, String message, Map<String, String> validationErrors) {
